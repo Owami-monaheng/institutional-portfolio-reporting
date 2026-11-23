@@ -1,0 +1,13 @@
+portfolio,rule,days_breached,first_breach,last_breach,worst_value,active_at_period_end
+A,Rolling 63d return trails benchmark by > 5%,87,2024-02-27,2026-07-01,-0.1891898978056017,False
+A,Drawdown deeper than mandate limit (-12%),34,2025-04-04,2026-06-25,-0.1448697411931369,False
+A,Rolling volatility above mandate limit (22%),63,2025-04-09,2025-07-07,0.27702039480539514,False
+A,Single holding above 30% of portfolio - MSFT,9,2026-08-12,2026-09-30,0.30555915713863996,False
+B,Rolling 63d return trails benchmark by > 5%,2,2025-07-23,2025-07-24,-0.34727801539880976,False
+B,Drawdown deeper than mandate limit (-8%),0,,,,False
+B,Rolling volatility above mandate limit (12%),48,2025-04-10,2025-06-25,0.12992820849412698,False
+B,Single holding above 30% of portfolio,0,,,,False
+C,Rolling 63d return trails benchmark by > 5%,2,2025-07-23,2025-07-24,-0.12164029033823293,False
+C,Drawdown deeper than mandate limit (-4%),0,,,,False
+C,Rolling volatility above mandate limit (6%),52,2026-03-25,2026-06-16,0.06521763449053398,False
+C,Single holding above 30% of portfolio,0,,,,False

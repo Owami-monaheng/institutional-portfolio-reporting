@@ -1,0 +1,157 @@
+{
+  "refreshed_utc": "2026-11-23T12:51:18.323064+00:00",
+  "source": "Yahoo Finance via yfinance (auto_adjust=True)",
+  "start_date": "2023-11-21",
+  "as_of_date": "2026-11-19",
+  "coverage": {
+    "^GSPC": {
+      "first": "2023-11-21",
+      "last": "2026-11-19",
+      "rows": 752
+    },
+    "^NDX": {
+      "first": "2023-11-21",
+      "last": "2026-11-19",
+      "rows": 752
+    },
+    "AAPL": {
+      "first": "2023-11-21",
+      "last": "2026-11-19",
+      "rows": 752
+    },
+    "MSFT": {
+      "first": "2023-11-21",
+      "last": "2026-11-19",
+      "rows": 752
+    },
+    "NPN.JO": {
+      "first": "2023-11-21",
+      "last": "2026-11-19",
+      "rows": 748
+    },
+    "SBK.JO": {
+      "first": "2023-11-21",
+      "last": "2026-11-19",
+      "rows": 748
+    },
+    "STX40.JO": {
+      "first": "2023-11-21",
+      "last": "2026-11-19",
+      "rows": 748
+    },
+    "GC=F": {
+      "first": "2023-11-21",
+      "last": "2026-11-19",
+      "rows": 755
+    },
+    "USDZAR=X": {
+      "first": "2023-11-21",
+      "last": "2026-11-19",
+      "rows": 778
+    }
+  },
+  "warnings": [
+    "^GSPC: 27 missing days vs. combined calendar",
+    "^NDX: 27 missing days vs. combined calendar",
+    "AAPL: 27 missing days vs. combined calendar",
+    "MSFT: 27 missing days vs. combined calendar",
+    "NPN.JO: 31 missing days vs. combined calendar",
+    "SBK.JO: 31 missing days vs. combined calendar",
+    "STX40.JO: 31 missing days vs. combined calendar",
+    "GC=F: 24 missing days vs. combined calendar",
+    "USDZAR=X: 1 missing days vs. combined calendar"
+  ],
+  "cleaning": {
+    "rows_raw": 779,
+    "rows_clean": 779,
+    "rows_dropped_after_fill": 0,
+    "cells_forward_filled": 230,
+    "max_ffill_days": 5,
+    "clean_start": "2023-11-21",
+    "clean_end": "2026-11-19",
+    "known_errors_corrected": [
+      {
+        "ticker": "SBK.JO",
+        "date": "2025-04-25",
+        "issue": "Price of R2.29 vs ~R228 either side (unit error in source data)",
+        "treatment": "Blanked; previous close carried forward"
+      },
+      {
+        "ticker": "USDZAR=X",
+        "date": "2024-11-15",
+        "issue": "Rate of 14.86 vs ~18.2 either side (bad tick; reverses next trading day)",
+        "treatment": "Blanked; previous close carried forward"
+      },
+      {
+        "ticker": "USDZAR=X",
+        "date": "2025-01-15",
+        "issue": "Rate of 16.50 vs ~18.9 either side (bad tick; reverses next trading day)",
+        "treatment": "Blanked; previous close carried forward"
+      },
+      {
+        "ticker": "USDZAR=X",
+        "date": "2025-01-17",
+        "issue": "Rate of 15.43 vs ~18.7 either side (bad tick; reverses next trading day)",
+        "treatment": "Blanked; previous close carried forward"
+      }
+    ],
+    "move_exceptions": [
+      {
+        "ticker": "^GSPC",
+        "date": "2025-04-09",
+        "move": 0.0952,
+        "threshold": 0.08,
+        "status": "Checked: broad market move across US indices"
+      },
+      {
+        "ticker": "^NDX",
+        "date": "2025-04-09",
+        "move": 0.1202,
+        "threshold": 0.08,
+        "status": "Checked: broad market move across US indices"
+      },
+      {
+        "ticker": "AAPL",
+        "date": "2025-04-09",
+        "move": 0.1533,
+        "threshold": 0.15,
+        "status": "Checked: broad market move across US indices"
+      },
+      {
+        "ticker": "MSFT",
+        "date": "2026-07-30",
+        "move": 0.1551,
+        "threshold": 0.15,
+        "status": "Checked: step persisted; stock-specific (Nasdaq 100 +3.4% same day)"
+      },
+      {
+        "ticker": "NPN.JO",
+        "date": "2023-12-22",
+        "move": -0.177,
+        "threshold": 0.15,
+        "status": "Checked: sharp dip, partial rebound within a week; not a data error"
+      },
+      {
+        "ticker": "STX40.JO",
+        "date": "2025-04-25",
+        "move": -0.99,
+        "threshold": 0.08,
+        "status": "OPEN - review"
+      },
+      {
+        "ticker": "STX40.JO",
+        "date": "2025-04-29",
+        "move": 99.7224,
+        "threshold": 0.08,
+        "status": "OPEN - review"
+      },
+      {
+        "ticker": "GC=F",
+        "date": "2026-01-30",
+        "move": -0.1078,
+        "threshold": 0.08,
+        "status": "Checked: step persisted, partial bounce; not a data error"
+      }
+    ]
+  }
+}
