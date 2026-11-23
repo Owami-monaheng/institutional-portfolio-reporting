@@ -5,6 +5,7 @@ from pathlib import Path
 import pandas as pd
 import plotly.express as px
 import streamlit as st
+import matplotlib.dates as mdates
 
 ROOT = Path(__file__).resolve().parent
 PROC = ROOT / "data" / "processed"
@@ -55,7 +56,7 @@ st.sidebar.caption("Sharpe uses an assumed 7% ZAR cash rate as the risk-free rat
 
 k = st.columns(6)
 k[0].metric("Total return", f"{row.total_return:.1%}")
-k[1].metric("CAGR", f"{row.cagr:.1%}", f"{row.excess_cagr * 100:+.1f} pts vs benchmark")
+k[1].metric("CAGR", f"{row.cagr:.1%}", f"{row.excess_cagr * 100:+.1f} pts vs bench")
 k[2].metric("Volatility", f"{row.ann_vol:.1%}")
 k[3].metric("Max drawdown", f"{row.max_drawdown:.1%}")
 k[4].metric("Sharpe", f"{row.sharpe:.2f}")
@@ -134,7 +135,7 @@ with tabs[5]:
     log = D["log"]
     cl = log.get("cleaning", {})
     st.subheader("Data quality")
-    st.write(f"Last refresh (UTC): {log.get('refreshed_utc')}")
+    st.write(f"Last refresh (UTC): {str(log.get('refreshed_utc', 'unknown'))[:19].replace('T', ' ')} UTC")
     st.write(f"Source: {log.get('source')}")
     st.write(f"Clean window: {cl.get('clean_start')} to {cl.get('clean_end')}; "
              f"{cl.get('cells_forward_filled')} cells forward-filled "

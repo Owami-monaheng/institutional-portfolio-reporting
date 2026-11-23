@@ -2,6 +2,8 @@
 
 REPORTING_BASE_CURRENCY = "ZAR"
 HISTORY_YEARS = 3
+START_DATE = "2023-11-21"   # first price date of the verified dataset
+AS_OF_DATE = "2026-11-19"   # last date verified across all instruments
 RISK_FREE_RATE = 0.0   # placeholder; document the choice in assumptions.md
 REBALANCING = "quarterly_to_target"
 
@@ -12,6 +14,7 @@ INSTRUMENTS = {
     "MSFT":     {"name": "Microsoft",     "ccy": "USD", "type": "equity"},
     "NPN.JO":   {"name": "Naspers",       "ccy": "ZAc", "type": "equity"},   # JSE quotes in cents
     "SBK.JO":   {"name": "Standard Bank", "ccy": "ZAc", "type": "equity"},
+     "STX40.JO": {"name": "Satrix 40 ETF", "ccy": "ZAc", "type": "equity_index"},   # JSE Top 40 proxy (total return)
     "GC=F":     {"name": "Gold futures",  "ccy": "USD", "type": "commodity"},
     "USDZAR=X": {"name": "USD/ZAR",       "ccy": "FX",  "type": "fx"},
 }
@@ -22,15 +25,21 @@ SYNTHETIC = {
     "SA_CASH":  {"annual_return": 0.07,  "annual_vol": 0.00},
 }
 
+# Benchmarks mirror each portfolio's asset-class weights using index proxies:
+# international equity -> US indices, SA equity -> Satrix 40 (JSE Top 40 proxy),
+# gold -> gold futures, bonds and cash -> the same synthetic sleeves as the portfolio.
 PORTFOLIOS = {
-    "A": {"mandate": "Growth", "benchmark": {"^NDX": 0.5, "^GSPC": 0.5}, "weights": {
-        "AAPL": 0.25, "MSFT": 0.25, "^GSPC": 0.20, "NPN.JO": 0.10,
-        "SBK.JO": 0.05, "GC=F": 0.05, "SA_CASH": 0.10}},
-    "B": {"mandate": "Balanced", "benchmark": {"^GSPC": 0.3, "SA_BONDS": 0.4, "SA_CASH": 0.3}, "weights": {
-        "^GSPC": 0.20, "^NDX": 0.10, "NPN.JO": 0.10, "SBK.JO": 0.15,
-        "GC=F": 0.05, "SA_BONDS": 0.25, "SA_CASH": 0.15}},
-    "C": {"mandate": "Income & Preservation", "benchmark": {"SA_BONDS": 0.5, "SA_CASH": 0.5}, "weights": {
-        "^GSPC": 0.10, "SBK.JO": 0.10, "GC=F": 0.10, "SA_BONDS": 0.40, "SA_CASH": 0.30}},
+    "A": {"mandate": "Growth",
+          "benchmark": {"^NDX": 0.35, "^GSPC": 0.35, "STX40.JO": 0.15, "GC=F": 0.05, "SA_CASH": 0.10},
+          "weights": {"AAPL": 0.25, "MSFT": 0.25, "^GSPC": 0.20, "NPN.JO": 0.10,
+                      "SBK.JO": 0.05, "GC=F": 0.05, "SA_CASH": 0.10}},
+    "B": {"mandate": "Balanced",
+          "benchmark": {"^GSPC": 0.30, "STX40.JO": 0.25, "GC=F": 0.05, "SA_BONDS": 0.25, "SA_CASH": 0.15},
+          "weights": {"^GSPC": 0.20, "^NDX": 0.10, "NPN.JO": 0.10, "SBK.JO": 0.15,
+                      "GC=F": 0.05, "SA_BONDS": 0.25, "SA_CASH": 0.15}},
+    "C": {"mandate": "Income & Preservation",
+          "benchmark": {"^GSPC": 0.10, "STX40.JO": 0.10, "GC=F": 0.10, "SA_BONDS": 0.40, "SA_CASH": 0.30},
+          "weights": {"^GSPC": 0.10, "SBK.JO": 0.10, "GC=F": 0.10, "SA_BONDS": 0.40, "SA_CASH": 0.30}},
 }
 
 for k, p in PORTFOLIOS.items():

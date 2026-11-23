@@ -6,7 +6,7 @@ from pathlib import Path
 import pandas as pd
 import yfinance as yf
 
-from config.portfolio_config import INSTRUMENTS, HISTORY_YEARS
+from config.portfolio_config import INSTRUMENTS, START_DATE, AS_OF_DATE
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
@@ -18,8 +18,9 @@ def fetch_prices() -> pd.DataFrame:
     LOG.parent.mkdir(parents=True, exist_ok=True)
 
     tickers = list(INSTRUMENTS)
+    end = (pd.Timestamp(AS_OF_DATE) + pd.Timedelta(days=1)).strftime("%Y-%m-%d")  # end is exclusive
     prices = yf.download(
-        tickers, period=f"{HISTORY_YEARS}y", auto_adjust=True, progress=False
+        tickers, start=START_DATE, end=end, auto_adjust=True, progress=False
     )["Close"]
 
     warnings, coverage = [], {}
@@ -46,7 +47,8 @@ def fetch_prices() -> pd.DataFrame:
     LOG.write_text(json.dumps({
         "refreshed_utc": datetime.now(timezone.utc).isoformat(),
         "source": "Yahoo Finance via yfinance (auto_adjust=True)",
-        "history_years": HISTORY_YEARS,
+               "start_date": START_DATE,
+        "as_of_date": AS_OF_DATE,
         "coverage": coverage,
         "warnings": warnings,
     }, indent=2))

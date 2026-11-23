@@ -63,10 +63,13 @@ def run():
         ]
         for name, series, mask, worse in rules:
             mask = mask.fillna(False)
+            label = name
+            if mask.any() and name.startswith("Single holding"):
+                label += f" - {w[securities].loc[mask].max().idxmax()}"
             hit = series[mask]
             flags.append({
                 "portfolio": pid,
-                "rule": name,
+                "rule": label,
                 "days_breached": int(mask.sum()),
                 "first_breach": str(hit.index.min().date()) if mask.any() else "",
                 "last_breach": str(hit.index.max().date()) if mask.any() else "",

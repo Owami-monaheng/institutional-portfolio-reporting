@@ -14,6 +14,7 @@ from xml.sax.saxutils import escape as esc
 
 import matplotlib
 matplotlib.use("Agg")
+import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 from matplotlib.ticker import PercentFormatter
 import pandas as pd
@@ -51,6 +52,18 @@ def join_and(items):
 
 def synth_share(weights):
     return sum(w for t, w in weights.items() if t in SYNTHETIC)
+
+
+def bench_text():
+    return "; ".join(f"Portfolio {p}: " + ", ".join(f"{w * 100:.0f}% {t}" for t, w in cfg["benchmark"].items())
+                     for p, cfg in PORTFOLIOS.items())
+
+
+def bench_text():
+    return "; ".join(
+        f"Portfolio {p}: " + ", ".join(f"{w * 100:.0f}% {t}" for t, w in cfg["benchmark"].items())
+        for p, cfg in PORTFOLIOS.items()
+    )
 
 
 # ---------- data ----------
@@ -105,9 +118,10 @@ def findings(D, fx):
         f"{pct(perf.loc[p, 'tracking_error'])}; {pct(synth_share(PORTFOLIOS[p]['weights']), 0)} of the "
         f"portfolio and {pct(bench_syn[p], 0)} of its benchmark is synthetic."
         for p in perf.index)
-    detail += (" Differences from a benchmark also reflect holdings the benchmark does not contain "
-               "(for example cash, gold or JSE shares), so they should not be read as a measure of "
-               "selection skill.")
+    detail += (" Each benchmark mirrors its portfolio's asset-class weights using index proxies, so "
+               "differences reflect the chosen holdings against their asset-class index rather than "
+               "asset allocation. Synthetic bond and cash sleeves are common to portfolio and benchmark "
+               "and largely cancel.")
     F["q1"] = dict(label="Relative performance", short=short, detail=detail)
 
     # Q2 downside risk
@@ -127,6 +141,9 @@ def findings(D, fx):
                    f"synthetic, so its low measured risk partly reflects assumed inputs.")
     detail += f" Sharpe ratios use an assumed {pct(RF, 0)} ZAR cash rate as the risk-free rate."
     F["q2"] = dict(label="Downside risk", short=short, detail=detail)
+    def bench_text():
+        return "; ".join(f"Portfolio {p}: " + ", ".join(f"{w * 100:.0f}% {t}" for t, w in cfg["benchmark"].items())
+                     for p, cfg in PORTFOLIOS.items())
 
     # Q3 return concentration
     nons = contrib[~contrib["ticker"].str.startswith("SA_")]
@@ -204,7 +221,7 @@ def findings(D, fx):
     cl = log.get("cleaning", {})
     short = ("One command (python -m src.run_pipeline) refreshes market data, applies documented cleaning "
              "rules, recalculates every metric and regenerates the dashboard and this report.")
-    detail = (f"Last data refresh: {log.get('refreshed_utc', 'unknown')} UTC. The run applied "
+    detail = (f"Last data refresh: {str(log.get('refreshed_utc', 'unknown'))[:19].replace('T', ' ')} UTC. The run applied "
               f"{len(cl.get('known_errors_corrected', []))} documented source-data corrections and logged "
               f"{len(cl.get('move_exceptions', []))} large moves for review. Every refresh records the data "
               f"source, coverage, missing-data warnings and cleaning actions, so each figure can be traced.")
@@ -237,7 +254,8 @@ def fig_cumulative(D):
         ax.plot(cum.index, cum[f"Benchmark {p}"], color="#8a94a0", lw=1.3, ls="--", label="Benchmark")
         ax.set_title(f"Portfolio {p}", fontsize=9)
         ax.yaxis.set_major_formatter(PercentFormatter(1.0, decimals=0))
-        ax.tick_params(axis="x", labelrotation=30)
+        ax.xaxis.set_major_locator(mdates.YearLocator())
+        ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
         style_ax(ax)
     axes[0].legend(fontsize=7, frameon=False)
     return fig_image(fig)
@@ -359,8 +377,8 @@ def build_pack(D, F, now):
     S += [tbl(rows, [18, 42, 24, 20, 28, 24, 24], right_from=2), Spacer(1, 5),
           Paragraph(F["q1"]["detail"], st["body"]),
           KeepTogether([fig_cumulative(D), Paragraph("Cumulative return in ZAR, portfolio against benchmark.", st["small"])]),
-          tbl(trailing_rows(D["rets"]), [40, 20, 38, 38, 38], right_from=1),
-          Paragraph("Trailing periods are the last 63, 126 and 252 trading days to the data date.", st["small"])]
+          KeepTogether([tbl(trailing_rows(D["rets"]), [40, 20, 38, 38, 38], right_from=1),
+                        Paragraph("Trailing periods are the last 63, 126 and 252 trading days to the data date.", st["small"])])]
 
     # 2 Contribution and concentration
     S.append(Paragraph("2. Contribution and concentration", st["h1"]))
@@ -433,6 +451,10 @@ def build_pack(D, F, now):
         "Prices: adjusted close from Yahoo Finance. Index tickers are price indices (no dividends); single stocks are total return.",
         "Rand conversion compounds the dollar return and the USD/ZAR change. JSE prices are converted from cents to rand.",
         "Portfolios are rebalanced quarterly to target weights, with weights drifting in between.",
+        f"Benchmarks mirror each portfolio's asset-class weights using index proxies. {bench_text()}. "
+        "STX40.JO (Satrix 40 ETF) is the JSE Top 40 proxy.",
+                f"Benchmarks mirror each portfolio's asset-class weights using index proxies. {bench_text()}. "
+        "STX40.JO (Satrix 40 ETF) is the JSE Top 40 proxy.",
         "Volatility, Sharpe and tracking error use 252 trading days. Sharpe uses an arithmetic mean return.",
         f"Synthetic sleeves: SA_BONDS {pct(SYNTHETIC['SA_BONDS']['annual_return'], 0)} return with "
         f"{pct(SYNTHETIC['SA_BONDS']['annual_vol'], 0)} volatility; SA_CASH {pct(SYNTHETIC['SA_CASH']['annual_return'], 0)}. "
