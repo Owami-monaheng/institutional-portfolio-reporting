@@ -1,0 +1,20 @@
+portfolio,mandate,ticker,name,asset_class,region,sector,weight,start_value_zar,is_synthetic
+A,Growth,AAPL,Apple,Equity,International,Technology,0.25,2500000.0,False
+A,Growth,MSFT,Microsoft,Equity,International,Technology,0.25,2500000.0,False
+A,Growth,^GSPC,S&P 500,Equity,International,Broad market (index proxy),0.2,2000000.0,False
+A,Growth,NPN.JO,Naspers,Equity,South Africa,Consumer / Internet,0.1,1000000.0,False
+A,Growth,SBK.JO,Standard Bank,Equity,South Africa,Financials,0.05,500000.0,False
+A,Growth,GC=F,Gold futures,Commodity,International,Gold,0.05,500000.0,False
+A,Growth,SA_CASH,SA_CASH,Cash,South Africa,Cash (synthetic),0.1,1000000.0,True
+B,Balanced,^GSPC,S&P 500,Equity,International,Broad market (index proxy),0.2,2000000.0,False
+B,Balanced,^NDX,Nasdaq 100,Equity,International,Technology (index proxy),0.1,1000000.0,False
+B,Balanced,NPN.JO,Naspers,Equity,South Africa,Consumer / Internet,0.1,1000000.0,False
+B,Balanced,SBK.JO,Standard Bank,Equity,South Africa,Financials,0.15,1500000.0,False
+B,Balanced,GC=F,Gold futures,Commodity,International,Gold,0.05,500000.0,False
+B,Balanced,SA_BONDS,SA_BONDS,Fixed income,South Africa,Government bonds (synthetic),0.25,2500000.0,True
+B,Balanced,SA_CASH,SA_CASH,Cash,South Africa,Cash (synthetic),0.15,1500000.0,True
+C,Income & Preservation,^GSPC,S&P 500,Equity,International,Broad market (index proxy),0.1,1000000.0,False
+C,Income & Preservation,SBK.JO,Standard Bank,Equity,South Africa,Financials,0.1,1000000.0,False
+C,Income & Preservation,GC=F,Gold futures,Commodity,International,Gold,0.1,1000000.0,False
+C,Income & Preservation,SA_BONDS,SA_BONDS,Fixed income,South Africa,Government bonds (synthetic),0.4,4000000.0,True
+C,Income & Preservation,SA_CASH,SA_CASH,Cash,South Africa,Cash (synthetic),0.3,3000000.0,True

@@ -1,0 +1,15 @@
+portfolio,mandate,asset_class,region,weight
+A,Growth,Cash,South Africa,0.1
+A,Growth,Commodity,International,0.05
+A,Growth,Equity,International,0.7
+A,Growth,Equity,South Africa,0.15000000000000002
+B,Balanced,Cash,South Africa,0.15
+B,Balanced,Commodity,International,0.05
+B,Balanced,Equity,International,0.30000000000000004
+B,Balanced,Equity,South Africa,0.25
+B,Balanced,Fixed income,South Africa,0.25
+C,Income & Preservation,Cash,South Africa,0.3
+C,Income & Preservation,Commodity,International,0.1
+C,Income & Preservation,Equity,International,0.1
+C,Income & Preservation,Equity,South Africa,0.1
+C,Income & Preservation,Fixed income,South Africa,0.4
