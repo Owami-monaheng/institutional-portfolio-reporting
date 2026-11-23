@@ -3,11 +3,12 @@ from pathlib import Path
 
 import pandas as pd
 
-from config.portfolio_config import PORTFOLIOS, RISK_FREE_RATE
+from config.portfolio_config import PORTFOLIOS, SYNTHETIC
 from src import performance_metrics as pm
 
 ROOT = Path(__file__).resolve().parent.parent
 PROC = ROOT / "data" / "processed"
+RF = SYNTHETIC["SA_CASH"]["annual_return"]   # ZAR cash proxy (assumed 7%) as the risk-free rate
 
 
 def portfolio_returns(asset_rets: pd.DataFrame, weights: dict) -> pd.Series:
@@ -33,7 +34,7 @@ def run():
         port = portfolio_returns(assets, p["weights"])
         bench = portfolio_returns(assets, p["benchmark"])
         rets[f"Portfolio {pid}"], rets[f"Benchmark {pid}"] = port, bench
-        m = pm.summary(port, RISK_FREE_RATE)
+        m = pm.summary(port, RF)
         te = (port - bench).std() * (pm.TD ** 0.5)
         rows.append({"portfolio": pid, "mandate": p["mandate"], **m,
                      "benchmark_cagr": pm.cagr(bench),
