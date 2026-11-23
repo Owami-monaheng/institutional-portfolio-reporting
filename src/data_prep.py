@@ -5,7 +5,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from config.portfolio_config import SYNTHETIC, INSTRUMENTS, KNOWN_DATA_ERRORS
+from config.portfolio_config import SYNTHETIC, INSTRUMENTS, KNOWN_DATA_ERRORS, VERIFIED_MOVES
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw" / "prices.csv"
@@ -45,8 +45,8 @@ def clean_prices() -> pd.DataFrame:
         lim = MOVE_THRESHOLDS[m["type"]]
         for d, v in rets[t][rets[t].abs() > lim].items():
             exceptions.append({"ticker": t, "date": str(d.date()),
-                               "move": round(float(v), 4), "threshold": lim})
-
+                               "move": round(float(v), 4), "threshold": lim,
+                               "status": VERIFIED_MOVES.get(f"{t}|{d.date()}", "OPEN - review")})
     info = {
         "rows_raw": rows_raw,
         "rows_clean": len(px),

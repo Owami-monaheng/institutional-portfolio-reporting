@@ -51,3 +51,14 @@ KNOWN_DATA_ERRORS = [
      "issue": "Rate of 15.43 vs ~18.7 either side (bad tick; reverses next trading day)",
      "treatment": "Blanked; previous close carried forward"},
 ]
+
+# Large moves checked against the surrounding prices and judged genuine (not data errors).
+# Keys are "TICKER|YYYY-MM-DD". Status records what was verified, not a cause.
+VERIFIED_MOVES = {
+    "^GSPC|2025-04-09": "Checked: broad market move across US indices",
+    "^NDX|2025-04-09": "Checked: broad market move across US indices",
+    "AAPL|2025-04-09": "Checked: broad market move across US indices",
+    "MSFT|2026-07-30": "Checked: step persisted; stock-specific (Nasdaq 100 +3.4% same day)",
+    "NPN.JO|2023-12-22": "Checked: sharp dip, partial rebound within a week; not a data error",
+    "GC=F|2026-01-30": "Checked: step persisted, partial bounce; not a data error",
+}
